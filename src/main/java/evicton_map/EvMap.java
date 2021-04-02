@@ -10,11 +10,17 @@ public class EvMap<K, V> {
 
     private ConcurrentHashMap<K, V> map = new ConcurrentHashMap<>();
 
+    /**
+     * Eviction map constructor.
+     * @param duration - duration in milliseconds
+     */
     public EvMap(long duration) {
+        if (duration < 0) throw new IllegalArgumentException("Illegal Argument Exception, duration must be >= 0");
         this.duration = duration;
     }
 
     public void put(K key, V value) {
+        if (key == null) throw new IllegalArgumentException("Illegal Argument Exception, key cannot be null");
         map.put(key, value);
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -23,7 +29,7 @@ public class EvMap<K, V> {
                 map.remove(key);
                 timer.cancel();
             }
-        }, duration * 1000);
+        }, duration);
     }
 
     public V get(K key) {
@@ -31,12 +37,12 @@ public class EvMap<K, V> {
      }
 
     public static void main(String[] args) throws InterruptedException {
-        EvMap<String, Integer> evMap = new EvMap<>(10);
-        evMap.put("s", 1);
+        EvMap<Object, Object> evMap = new EvMap<>(1000);
+        evMap.put(null, 1);
         evMap.put("s2", 2);
         System.out.println("1) " + evMap.get("s"));
         System.out.println("2) " + evMap.get("s2"));
-        Thread.sleep(1000 * 20);
+        Thread.sleep(1000 * 2);
         System.out.println("1) " + evMap.get("s"));
         System.out.println("2) " + evMap.get("s2"));
         System.out.println("m: " + evMap.map);
