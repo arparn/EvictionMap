@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="evicton_map.EvMapTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2021-04-02T16:57:51" hostname="DESKTOP-IKBV7KI" time="8.824">
+  <properties/>
+  <testcase name="TestPutAndGet1000Times()" classname="evicton_map.EvMapTest" time="0.021"/>
+  <testcase name="TestZeroDurationShouldGiveException()" classname="evicton_map.EvMapTest" time="0.002"/>
+  <testcase name="TestNullKeyShouldGiveException()" classname="evicton_map.EvMapTest" time="0.001"/>
+  <testcase name="TestGet()" classname="evicton_map.EvMapTest" time="0.001"/>
+  <testcase name="TestSpeed()" classname="evicton_map.EvMapTest" time="0.746"/>
+  <testcase name="TestPut1000Times()" classname="evicton_map.EvMapTest" time="0.002"/>
+  <testcase name="TestEviction()" classname="evicton_map.EvMapTest" time="2.015"/>
+  <testcase name="TestNegativeDurationShouldGiveException()" classname="evicton_map.EvMapTest" time="0.002"/>
+  <testcase name="TestUpdateValue()" classname="evicton_map.EvMapTest" time="6.021"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
