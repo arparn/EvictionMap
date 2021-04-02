@@ -8,21 +8,26 @@ import static org.junit.jupiter.api.Assertions.*;
 class EvMapTest {
 
     long duration;
+    long durationLonger;
     long durationNegative;
+    long longDuration;
     EvMap<String, String> evMapStrStr;
     EvMap<Integer, Integer> evMapIntInt;
     EvMap<Object, Object> evMapObjObj;
     EvMap<Integer, String> evMapIntStr;
-
+    EvMap<Integer, Integer> evMapIntInt2;
 
     @BeforeEach
     void setUp() {
         this.duration = 1000;
+        this.durationLonger = 5000;
         this.durationNegative = -1000;
+        this.longDuration = 10000;
         this.evMapStrStr = new EvMap<>(duration);
         this.evMapIntInt = new EvMap<>(duration);
-        this.evMapIntStr = new EvMap<>(duration);
+        this.evMapIntStr = new EvMap<>(durationLonger);
         this.evMapObjObj = new EvMap<>(duration);
+        this.evMapIntInt2 = new EvMap<>(longDuration);
         evMapIntStr.put(1, "v1");
         evMapIntStr.put(2, "v2");
         evMapIntStr.put(3, "v3");
@@ -37,9 +42,12 @@ class EvMapTest {
 
     @Test
     void TestUpdateValue() throws InterruptedException {
-        Thread.sleep(duration * 2);
+        Thread.sleep(4000);
+        assertEquals("v2", evMapIntStr.get(2));
+        assertEquals("v3", evMapIntStr.get(3));
         evMapIntStr.put(2, "v4");
         evMapIntStr.put(3, "v5");
+        Thread.sleep(2000);
         assertEquals("v4", evMapIntStr.get(2));
         assertEquals("v5", evMapIntStr.get(3));
     }
@@ -88,6 +96,17 @@ class EvMapTest {
     }
 
     @Test
+    void TestZeroDurationShouldGiveException() {
+        boolean exception = false;
+        try {
+            EvMap<Integer, Integer> evMap = new EvMap<>(0);
+        } catch (IllegalArgumentException e) {
+            exception = true;
+        }
+        assertTrue(exception);
+    }
+
+    @Test
     void TestNullKeyShouldGiveException() {
         boolean exception = false;
         try {
@@ -96,5 +115,15 @@ class EvMapTest {
             exception = true;
         }
         assertTrue(exception);
+    }
+
+    @Test
+    void TestSpeed() {
+        for (int i = 0; i < 1000000; i++) {
+            evMapIntInt2.put(i, i + 1);
+        }
+        for (int i = 0; i < 1000000; i++) {
+            assertEquals(java.util.Optional.of(i + 1).get(), evMapIntInt2.get(i));
+        }
     }
 }
